@@ -2,18 +2,19 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	_ "github.com/mattn/go-sqlite3"
 )
 
 var db *sql.DB
 
-func createDB(db String) {
+func createDB(name string) {
 	var err error
-	db, err = sql.Open("sqlite3", db)
+	db, err = sql.Open("sqlite3", name)
 	checkErr(err)
 }
 
-func createTable(name String, fields String) {
+func createTable(name string, fields string) {
 	stmt, _ := db.Prepare("CREATE TABLE IF NOT EXISTS ? (?)")
 	_, err := stmt.Exec(name, fields)
 	checkErr(err)
