@@ -10,15 +10,9 @@ import (
 
 func main() {
 	defer db.Close()
-	createTable()
+	createTable("data", "id INTEGER PRIMARY KEY, name TEXT, date DATE, bitmap INTEGER")
 	setupRoutes()
 	http.ListenAndServe(":9600", nil)
-}
-
-func createTable() {
-	stmt, _ := db.Prepare("CREATE TABLE IF NOT EXISTS data (id INTEGER PRIMARY KEY, name TEXT, date DATE, bitmap INTEGER)")
-	_, err := stmt.Exec()
-	checkErr(err)
 }
 
 //func upsertClientData(c Client) error {

@@ -1,5 +1,5 @@
 package main
 
 func init() {
-	createDB()
+	createDB("dms.db")
 }

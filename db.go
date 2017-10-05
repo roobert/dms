@@ -7,9 +7,15 @@ import (
 
 var db *sql.DB
 
-func createDB() {
+func createDB(db String) {
 	var err error
-	db, err = sql.Open("sqlite3", "./dms.db")
+	db, err = sql.Open("sqlite3", db)
+	checkErr(err)
+}
+
+func createTable(name String, fields String) {
+	stmt, _ := db.Prepare("CREATE TABLE IF NOT EXISTS ? (?)")
+	_, err := stmt.Exec(name, fields)
 	checkErr(err)
 }
 
