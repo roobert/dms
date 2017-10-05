@@ -12,9 +12,7 @@ func TestCheckErrWithNil(t *testing.T) {
 func TestCheckErrWithError(t *testing.T) {
 	func() {
 		defer func() {
-			if r := recover(); r != nil {
-				// panic rescued
-			} else {
+			if r := recover(); r == nil {
 				t.Errorf("checkErr did not panic when passed an error")
 			}
 		}()
