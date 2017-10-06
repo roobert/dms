@@ -10,7 +10,7 @@ func prometheusHandler(w http.ResponseWriter, r *http.Request) {
 	c := Client{Name: getSiteName(r), TimeStamp: time.Now()}
 	c.Bitmap = fetchBitmap(c)
 
-	//upsertClientData(c)
+	upsertClientData(c)
 }
 
 type postDataPrometheus struct {
@@ -21,6 +21,10 @@ type postDataPrometheus struct {
 	} `json:"alerts"`
 }
 
+func (pdp postDataPrometheus) Site() string {
+	return pdp.Alerts[0].Annotations.Site
+}
+
 func getSiteName(r *http.Request) string {
 	decoder := json.NewDecoder(r.Body)
 
@@ -29,5 +33,5 @@ func getSiteName(r *http.Request) string {
 	err := decoder.Decode(&pdp)
 	checkErr(err)
 
-	return pdp.Alerts[0].Annotations.Site
+	return pdp.Site()
 }
