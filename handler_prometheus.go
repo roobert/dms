@@ -7,7 +7,13 @@ import (
 )
 
 func prometheusHandler(w http.ResponseWriter, r *http.Request) {
-	// decode the JSON and set some Client properties with the result
+	c := Client{Name: getSiteName(r), TimeStamp: time.Now()}
+	c.Bitmap = fetchBitmap(c)
+
+	//upsertClientData(c)
+}
+
+func getSiteName(r *http.Request) string {
 	decoder := json.NewDecoder(r.Body)
 
 	var pdp postDataPrometheus
@@ -15,13 +21,5 @@ func prometheusHandler(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&pdp)
 	checkErr(err)
 
-	c := Client{Name: pdp.Alerts[0].Annotations.Site, TimeStamp: time.Now()}
-
-	// calculate the bitmap and set it as a property on the Client
-	c.Bitmap = fetchBitmap(c)
-	checkErr(err)
-
-	// insert or update the result
-	//err = upsertClientData(c)
-	//checkErr(err)
+	return pdp.Alerts[0].Annotations.Site
 }

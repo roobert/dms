@@ -3,6 +3,7 @@ package main
 import (
 	"reflect"
 	"testing"
+	"time"
 )
 
 func TestNewBitmapLength(t *testing.T) {
@@ -19,4 +20,11 @@ func TestNewBitmapType(t *testing.T) {
 	if reflect.TypeOf(bitmap).Elem().Kind() != reflect.Bool {
 		t.Errorf("newBitmap() does not return a []bool type")
 	}
+}
+
+func TestUpdateBitmap(t *testing.T) {
+	bitmap := newBitmap()
+	timeStamp := time.Now()
+
+	updateBitmap(timeStamp, bitmap)
 }
