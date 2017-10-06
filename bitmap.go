@@ -34,11 +34,7 @@ func fetchBitmap(c Client) []bool {
 func updateBitmap(t time.Time, bitmap []bool) []bool {
 	y, m, d := t.Date()
 	midnight := time.Date(y, m, d, 0, 0, 0, 0, t.Location())
-
-	slot := (midnight.Unix() - t.Unix()) / 15
-
-	fmt.Println(slot)
-
+	slot := (t.Unix() - midnight.Unix()) / 15
 	bitmap[slot] = true
 
 	return bitmap

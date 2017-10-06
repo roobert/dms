@@ -26,5 +26,27 @@ func TestUpdateBitmap(t *testing.T) {
 	bitmap := newBitmap()
 	timeStamp := time.Now()
 
-	updateBitmap(timeStamp, bitmap)
+	bitmap = updateBitmap(timeStamp, bitmap)
+
+	// FIXME: contains one instance of true
+	var count int
+
+	for _, bit := range bitmap {
+		if bit == true {
+			count += 1
+		}
+	}
+
+	if count != 1 {
+		t.Errorf("incorrect number of true values in updated bitmap")
+	}
+
+	// FIXME: correct slot for timestamp contains "true"
+	y, m, d := timeStamp.Date()
+	midnight := time.Date(y, m, d, 0, 0, 0, 0, timeStamp.Location())
+	slot := (timeStamp.Unix() - midnight.Unix()) / 15
+
+	if bitmap[slot] != true {
+		t.Errorf("failed to update bitmap, slot value does not equal 'true'")
+	}
 }
