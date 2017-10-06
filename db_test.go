@@ -62,7 +62,18 @@ func TestRowExists(t *testing.T) {
 	exists := rowExists("test", "name = 'test'")
 
 	if exists != true {
-		t.Errorf("could not detect row exists")
+		t.Errorf("failed to detect row")
+	}
+
+	stmt, err = db.Prepare("DELETE FROM test WHERE name = ?")
+	checkErr(err)
+	_, err = stmt.Exec("test")
+	checkErr(err)
+
+	exists = rowExists("test", "name = 'test'")
+
+	if exists != false {
+		t.Errorf("detected non-existant row")
 	}
 
 	deleteDB("test.db")
