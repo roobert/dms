@@ -1,12 +1,12 @@
 package main
 
 import (
-	"net/http"
+//"net/http"
 )
 
 func setupRoutes() {
 	// update API
-	http.HandleFunc("/prometheus", prometheusHandler)
+	//http.HandleFunc("/prometheus", prometheusHandler)
 	// FIXME: implement generic handler to handle dms -> dms monitoring
 	//http.HandleFunc("/generic", genericHandler)
 

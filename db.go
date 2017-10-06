@@ -4,37 +4,42 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/mattn/go-sqlite3"
+	"os"
 )
 
 var db *sql.DB
 
-func createDB(name string) {
+func createDB(d string) {
 	var err error
-	db, err = sql.Open("sqlite3", name)
+	db, err = sql.Open("sqlite3", d)
 	checkErr(err)
 }
 
-func createTable(name string, fields string) {
-	stmt, _ := db.Prepare("CREATE TABLE IF NOT EXISTS ? (?)")
-	_, err := stmt.Exec(name, fields)
+func deleteDB(d string) {
+	err := os.Remove(d)
 	checkErr(err)
 }
 
-func rowExists(c Client) bool {
+func createTable(table, fields string) {
+	query := fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s (%s)", table, fields)
+	_, err := db.Exec(query)
+	checkErr(err)
+}
+
+func rowExists(table, cond string) bool {
 	var exists bool
 
-	query := fmt.Sprintf("SELECT exists (SELECT * FROM data WHERE 'name' == '%s' and 'date' == '%s')", c.Name, c.Date)
+	query := fmt.Sprintf("SELECT exists (SELECT * FROM %s WHERE %s)", table, cond)
 	err := db.QueryRow(query).Scan(&exists)
 	checkErr(err)
 
 	return exists
 }
 
-func checkForMultipleRecords(c Client) error {
+func checkForMultipleRecords(table, cond string) error {
 	var count int
 
-	// date.Date()
-	query := fmt.Sprintf("SELECT count(*) FROM data WHERE 'name' == '%s' and 'date' == date(%s))", c.Name, c.Date)
+	query := fmt.Sprintf("SELECT count(*) FROM %s WHERE %s)", table, cond)
 	rows := db.QueryRow(query)
 	err := rows.Scan(&count)
 	checkErr(err)
@@ -42,6 +47,6 @@ func checkForMultipleRecords(c Client) error {
 	if count > 1 {
 		return nil
 	} else {
-		return fmt.Errorf("error: found more than one row for client with date: %s/%s: %i", c.Name, c.TimeStamp, count)
+		return fmt.Errorf("error: found more than one row from table (%s) for condition: %s: %i", table, cond, count)
 	}
 }

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"time"
+	"fmt"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -30,34 +30,36 @@ import (
 func fetchBitmap(c Client) ([]bool, error) {
 	var bitmap []bool
 
-	err := checkForMultipleRecords(c)
+	cond := fmt.Sprintf("name = '' AND date = ''", c.Name, c.Date)
+
+	err := checkForMultipleRecords("data", cond)
 	checkErr(err)
 
-	if rowExists(c) {
-		bitmap = selectBitmapFromDB(c)
+	if rowExists("data", cond) {
+		//bitmap = selectBitmapFromDB()
+		fmt.Println("select bitmap bullshit")
 	} else {
 		bitmap = newBitmap()
 	}
 
-	// return bitmap
 	return bitmap, err
 }
 
 // update client in place?
-func selectBitmapFromDB(c Client) []bool {
-	//query := fmt.Sprintf("SELECT * FROM data WHERE 'name' == '%s' and 'date' == '%s')", c.Name, c.Date)
-	stmt, _ := db.Prepare("SELECT * FROM data WHERE 'name' == ? AND 'date' == ?")
-	rows, err := stmt.Query(c.Name, c.TimeStamp)
-	checkErr(err)
-
-	var name string
-	var timeStamp time.Time
-	var bitmap []bool
-
-	for rows.Next() {
-		err = rows.Scan(&name, &timeStamp, &bitmap)
-		checkErr(err)
-	}
-
-	return bitmap
-}
+//func selectBitmapFromDB(c Client) []bool {
+//	//query := fmt.Sprintf("SELECT * FROM data WHERE 'name' == '%s' and 'date' == '%s')", c.Name, c.Date)
+//	stmt, _ := db.Prepare("SELECT * FROM data WHERE 'name' == ? AND 'date' == ?")
+//	rows, err := stmt.Query(c.Name, c.TimeStamp)
+//	checkErr(err)
+//
+//	var name string
+//	var timeStamp time.Time
+//	var bitmap []bool
+//
+//	for rows.Next() {
+//		err = rows.Scan(&name, &timeStamp, &bitmap)
+//		checkErr(err)
+//	}
+//
+//	return bitmap
+//}
