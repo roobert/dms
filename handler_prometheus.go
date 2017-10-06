@@ -13,6 +13,17 @@ func prometheusHandler(w http.ResponseWriter, r *http.Request) {
 	upsertClientData(c)
 }
 
+func getSiteName(r *http.Request) string {
+	decoder := json.NewDecoder(r.Body)
+
+	var pdp postDataPrometheus
+
+	err := decoder.Decode(&pdp)
+	checkErr(err)
+
+	return pdp.Site()
+}
+
 type postDataPrometheus struct {
 	Alerts []struct {
 		Annotations struct {
@@ -23,15 +34,4 @@ type postDataPrometheus struct {
 
 func (pdp postDataPrometheus) Site() string {
 	return pdp.Alerts[0].Annotations.Site
-}
-
-func getSiteName(r *http.Request) string {
-	decoder := json.NewDecoder(r.Body)
-
-	var pdp postDataPrometheus
-
-	err := decoder.Decode(&pdp)
-	checkErr(err)
-
-	return pdp.Site()
 }
