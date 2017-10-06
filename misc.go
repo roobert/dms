@@ -1,11 +1,5 @@
 package main
 
-import (
-	"fmt"
-
-	_ "github.com/mattn/go-sqlite3"
-)
-
 //func upsertClientData(c Client) error {
 //	fmt.Println(c.Name, c.TimeStamp, c.Bitmap)
 //
@@ -26,24 +20,6 @@ import (
 //
 //	return err
 //}
-
-func fetchBitmap(c Client) ([]bool, error) {
-	var bitmap []bool
-
-	cond := fmt.Sprintf("name = '' AND date = ''", c.Name, c.Date)
-
-	err := checkForMultipleRecords("data", cond)
-	checkErr(err)
-
-	if rowExists("data", cond) {
-		//bitmap = selectBitmapFromDB()
-		fmt.Println("select bitmap bullshit")
-	} else {
-		bitmap = newBitmap()
-	}
-
-	return bitmap, err
-}
 
 // update client in place?
 //func selectBitmapFromDB(c Client) []bool {

@@ -79,4 +79,31 @@ func TestRowExists(t *testing.T) {
 	deleteDB("test.db")
 }
 
-// FIXME: test multiple records
+func TestMultipleRowsExist(t *testing.T) {
+	createDB("test.db")
+	createTable("test", "id INTEGER PRIMARY KEY, name TEXT")
+
+	stmt, err := db.Prepare("INSERT INTO test (name) VALUES (?)")
+	checkErr(err)
+	_, err = stmt.Exec("test")
+	checkErr(err)
+
+	multiple := multipleRowsExist("test", "name = 'test'")
+
+	if multiple != false {
+		t.Errorf("detected multiple rows when only one exists")
+	}
+
+	stmt, err = db.Prepare("INSERT INTO test (name) VALUES (?)")
+	checkErr(err)
+	_, err = stmt.Exec("test")
+	checkErr(err)
+
+	multiple = multipleRowsExist("test", "name = 'test'")
+
+	if multiple != true {
+		t.Errorf("failed to detect multiple rows")
+	}
+
+	deleteDB("test.db")
+}

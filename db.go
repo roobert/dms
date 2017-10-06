@@ -36,17 +36,17 @@ func rowExists(table, cond string) bool {
 	return exists
 }
 
-func checkForMultipleRecords(table, cond string) error {
+func multipleRowsExist(table, cond string) bool {
 	var count int
 
-	query := fmt.Sprintf("SELECT count(*) FROM %s WHERE %s)", table, cond)
+	query := fmt.Sprintf("SELECT count(*) FROM %s WHERE %s", table, cond)
 	rows := db.QueryRow(query)
 	err := rows.Scan(&count)
 	checkErr(err)
 
 	if count > 1 {
-		return nil
+		return true
 	} else {
-		return fmt.Errorf("error: found more than one row from table (%s) for condition: %s: %i", table, cond, count)
+		return false
 	}
 }

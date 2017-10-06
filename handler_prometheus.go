@@ -18,7 +18,7 @@ func prometheusHandler(w http.ResponseWriter, r *http.Request) {
 	c := Client{Name: pdp.Alerts[0].Annotations.Site, TimeStamp: time.Now()}
 
 	// calculate the bitmap and set it as a property on the Client
-	c.Bitmap, err = fetchBitmap(c)
+	c.Bitmap = fetchBitmap(c)
 	checkErr(err)
 
 	// insert or update the result
