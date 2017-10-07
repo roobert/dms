@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 )
@@ -10,7 +11,9 @@ func prometheusHandler(w http.ResponseWriter, r *http.Request) {
 	c := Client{Name: getSiteName(r), TimeStamp: time.Now()}
 	c.Bitmap = fetchBitmap(c)
 
-	upsertClientData(c)
+	cond := fmt.Sprintf("name = '%s' AND date = '%s'", c.Name, c.Date())
+
+	upsertRow("data", cond, c.Bitmap)
 }
 
 func getSiteName(r *http.Request) string {

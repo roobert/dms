@@ -22,6 +22,7 @@ func TestNewBitmapType(t *testing.T) {
 	}
 }
 
+// FIXME: split tests into separate functions
 func TestUpdateBitmap(t *testing.T) {
 	bitmap := newBitmap()
 	timeStamp := time.Now()

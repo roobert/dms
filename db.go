@@ -50,3 +50,22 @@ func multipleRowsExist(table, cond string) bool {
 		return false
 	}
 }
+
+// FIXME: do this using a transaction?
+func upsertRow(table string, cond string, bitmap []bool) {
+	if rowExists(table, cond) == true {
+		updateRow(table, cond, bitmap)
+	} else {
+		insertRow(table, cond, bitmap)
+	}
+}
+
+func updateRow(t string, cond string, bitmap []bool) {
+	fmt.Println(t, cond, bitmap)
+	fmt.Println("updating")
+}
+
+func insertRow(t string, cond string, bitmap []bool) {
+	fmt.Println(t, cond, bitmap)
+	fmt.Println("inserting")
+}

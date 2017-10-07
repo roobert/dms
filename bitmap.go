@@ -15,7 +15,7 @@ func newBitmap() []bool {
 func fetchBitmap(c Client) []bool {
 	var bitmap []bool
 
-	cond := fmt.Sprintf("name = '%s' AND date = '%s'", c.Name, c.Date)
+	cond := fmt.Sprintf("name = '%s' AND date = '%s'", c.Name, c.Date())
 
 	if multipleRowsExist("data", cond) == true {
 		panic(fmt.Sprintf("detected multiple rows for condition: %s", cond))
