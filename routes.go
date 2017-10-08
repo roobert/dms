@@ -4,9 +4,13 @@ import (
 	"net/http"
 )
 
-func setupRoutes() {
+func setupRoutes(table string) {
 	// update API
-	http.HandleFunc("/prometheus", prometheusHandler)
+	http.HandleFunc("/prometheus", func(w http.ResponseWriter, r *http.Request) {
+		prometheusHandler(w, r, table)
+	})
+	//prometheusHandler(w http.ResponseWriter, r *http.Request, table)
+
 	// FIXME: implement generic handler to handle dms -> dms monitoring
 	//http.HandleFunc("/generic", genericHandler)
 

@@ -9,16 +9,16 @@ import (
 func TestNewBitmapLength(t *testing.T) {
 	bitmap := newBitmap()
 
-	if len(bitmap) != 5760 {
-		t.Errorf("newBitmap() does not return a bitmap with which is 5760 in length")
+	if len(bitmap.Value) != 5760 {
+		t.Errorf("incorrect bitmap length")
 	}
 }
 
 func TestNewBitmapType(t *testing.T) {
 	bitmap := newBitmap()
 
-	if reflect.TypeOf(bitmap).Elem().Kind() != reflect.Bool {
-		t.Errorf("newBitmap() does not return a []bool type")
+	if reflect.TypeOf(bitmap.Value).Elem().Kind() != reflect.Bool {
+		t.Errorf("bitmap value is not []bool type")
 	}
 }
 
@@ -32,7 +32,7 @@ func TestUpdateBitmap(t *testing.T) {
 	// test bitmap contains one instance of true
 	var count int
 
-	for _, bit := range bitmap {
+	for _, bit := range bitmap.Value {
 		if bit == true {
 			count += 1
 		}
@@ -47,7 +47,7 @@ func TestUpdateBitmap(t *testing.T) {
 	midnight := time.Date(y, m, d, 0, 0, 0, 0, timeStamp.Location())
 	slot := (timeStamp.Unix() - midnight.Unix()) / 15
 
-	if bitmap[slot] != true {
+	if bitmap.Value[slot] != true {
 		t.Errorf("failed to update bitmap, slot value does not equal 'true'")
 	}
 }

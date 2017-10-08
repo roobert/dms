@@ -51,21 +51,29 @@ func multipleRowsExist(table, cond string) bool {
 	}
 }
 
-// FIXME: do this using a transaction?
-func upsertRow(table string, cond string, bitmap []bool) {
+// FIXME: potential race condition
+func upsertRow(table string, c Client) {
+	cond := fmt.Sprintf("name = '%s' AND date = '%s'", c.Name, c.Date())
+
+	fmt.Println(rowExists(table, cond))
+
 	if rowExists(table, cond) == true {
-		updateRow(table, cond, bitmap)
+		fmt.Println("updating")
+		updateRow(table, c)
 	} else {
-		insertRow(table, cond, bitmap)
+		fmt.Println("inserting")
+		insertRow(table, c)
 	}
 }
 
-func updateRow(t string, cond string, bitmap []bool) {
-	fmt.Println(t, cond, bitmap)
-	fmt.Println("updating")
+func updateRow(table string, c Client) {
+	query := fmt.Sprintf("UPDATE %s SET bitmap = '%#v' WHERE name = '%s' AND date = '%s'", table, c.Bitmap, c.Name, c.Date())
+	_, err := db.Exec(query)
+	checkErr(err)
 }
 
-func insertRow(t string, cond string, bitmap []bool) {
-	fmt.Println(t, cond, bitmap)
-	fmt.Println("inserting")
+func insertRow(table string, c Client) {
+	query := fmt.Sprintf("INSERT INTO %s (name, date, bitmap) VALUES ('%s', '%s', '%#v')", table, c.Name, c.Date(), c.Bitmap)
+	_, err := db.Exec(query)
+	checkErr(err)
 }
