@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func upsertClient(c Client) {
+func updateClient(c Client) {
 	query := fmt.Sprintf("INSERT OR IGNORE INTO clients (name, date) VALUES ('%s', '%s')", c.Name, c.Date())
 
 	fmt.Println(query)
@@ -10,7 +10,7 @@ func upsertClient(c Client) {
 	checkErr(err)
 }
 
-func upsertResult(c Client) {
+func updateResult(c Client) {
 	query := fmt.Sprintf("INSERT OR IGNORE INTO results (id, slot) "+
 		"SELECT id, %v FROM clients WHERE name = '%s' AND date = '%v'", c.Slot(), c.Name, c.Date())
 

@@ -9,8 +9,8 @@ import (
 func genericHandler(w http.ResponseWriter, r *http.Request) {
 	c := Client{Name: getSiteNameGenericJSON(r), TimeStamp: time.Now()}
 
-	upsertClient(c)
-	upsertResult(c)
+	updateClient(c)
+	updateResult(c)
 }
 
 func getSiteNameGenericJSON(r *http.Request) string {

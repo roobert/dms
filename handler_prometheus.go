@@ -9,8 +9,8 @@ import (
 func prometheusHandler(w http.ResponseWriter, r *http.Request) {
 	c := Client{Name: getSiteNamePrometheusJSON(r), TimeStamp: time.Now()}
 
-	upsertClient(c)
-	upsertResult(c)
+	updateClient(c)
+	updateResult(c)
 }
 
 func getSiteNamePrometheusJSON(r *http.Request) string {

@@ -11,8 +11,8 @@ package main
 //	c = prometheusHandler(w, r)
 //	c = genericHandler(w, r)
 //
-//	upsertClient(c)
-//	upsertResult(c)
+//	updateClient(c)
+//	updateResult(c)
 //}
 //
 //func getSiteNamePrometheusJSON(r *http.Request) string {
