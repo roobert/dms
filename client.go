@@ -5,7 +5,7 @@ import "time"
 type Client struct {
 	Name      string
 	TimeStamp time.Time
-	Bitmap    Bitmap
+	//Bitmap    Bitmap
 }
 
 func (c Client) Date() string {

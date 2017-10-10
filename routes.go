@@ -4,10 +4,10 @@ import (
 	"net/http"
 )
 
-func setupRoutes(table string) {
+func setupRoutes() {
 	// update API
 	http.HandleFunc("/prometheus", func(w http.ResponseWriter, r *http.Request) {
-		prometheusHandler(w, r, table)
+		prometheusHandler(w, r)
 	})
 	//prometheusHandler(w http.ResponseWriter, r *http.Request, table)
 

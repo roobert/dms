@@ -9,9 +9,8 @@ import (
 func main() {
 	defer db.Close()
 
-	table := "data"
-	createTable(table, "id INTEGER PRIMARY KEY, name TEXT, date TEXT, bitmap TEXT")
-	setupRoutes(table)
+	createTables()
+	setupRoutes()
 
 	// FIXME: parameterize LISTEN address/port
 	http.ListenAndServe(":9600", nil)
