@@ -25,32 +25,6 @@ func getSiteName(r *http.Request) string {
 	return pdp.Site()
 }
 
-func createTables() {
-	clientsSchema := `
-		id    INTEGER PRIMARY KEY,
-		name  TEXT    NOT NULL,
-		date  TEXT    NOT NULL,
-
-		UNIQUE (date, name),
-		UNIQUE (id, name)
-	`
-
-	createTable("clients", clientsSchema)
-
-	resultsSchema := `
-		id     INT  NOT NULL,
-		slot   INT  NOT NULL,
-		result BOOL NOT NULL,
-
-		UNIQUE (id, slot),
-		UNIQUE (slot, result)
-
-		FOREIGN KEY (id) REFERENCES client(id)
-	`
-
-	createTable("results", resultsSchema)
-}
-
 func upsertClient(c Client) {
 	query := fmt.Sprintf("INSERT OR IGNORE INTO clients (name, date) VALUES ('%s', '%s')", c.Name, c.Date())
 
@@ -60,10 +34,10 @@ func upsertClient(c Client) {
 }
 
 func upsertResult(c Client) {
-	query = fmt.Sprintf("INSERT OR IGNORE INTO results (id, slot, result) "+
-		"SELECT id, %v, 'true' FROM clients WHERE name = '%s' AND date = '%v'", c.Slot, c.Name, c.Date())
+	query := fmt.Sprintf("INSERT OR IGNORE INTO results (id, slot) "+
+		"SELECT id, %v, FROM clients WHERE name = '%s' AND date = '%v'", c.Slot(), c.Name, c.Date())
 
 	fmt.Println(query)
-	_, err = db.Exec(query)
+	_, err := db.Exec(query)
 	checkErr(err)
 }
