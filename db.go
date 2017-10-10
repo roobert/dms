@@ -20,32 +20,6 @@ func deleteDB(d string) {
 	checkErr(err)
 }
 
-func createTables() {
-	clientsSchema := `
-		id    INTEGER PRIMARY KEY,
-		name  TEXT    NOT NULL,
-		date  TEXT    NOT NULL,
-
-		UNIQUE (date, name),
-		UNIQUE (id, name)
-	`
-
-	createTable("clients", clientsSchema)
-
-	resultsSchema := `
-		id     INT  NOT NULL,
-		slot   INT  NOT NULL,
-		result BOOL NOT NULL,
-
-		UNIQUE (id, slot),
-		UNIQUE (slot, result)
-
-		FOREIGN KEY (id) REFERENCES client(id)
-	`
-
-	createTable("results", resultsSchema)
-}
-
 func createTable(table, fields string) {
 	query := fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s (%s)", table, fields)
 	_, err := db.Exec(query)

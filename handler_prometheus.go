@@ -10,27 +10,8 @@ import (
 func prometheusHandler(w http.ResponseWriter, r *http.Request) {
 	c := Client{Name: getSiteName(r), TimeStamp: time.Now()}
 
-	slot := timeStampSlot(c.TimeStamp)
-
-	// create row in clients table if one doesn't exist
-	query := fmt.Sprintf("INSERT OR IGNORE INTO clients (name, date) VALUES ('%s', '%s')", c.Name, c.Date())
-	fmt.Println(query)
-	_, err := db.Exec(query)
-	checkErr(err)
-
-	result := true
-
-	// insert row into results table for slot, if one doesn't exist
-	query = fmt.Sprintf("INSERT OR IGNORE INTO results (id, slot, result) SELECT id, %v, '%v' FROM clients WHERE name = '%s' AND date = '%v'", slot, result, c.Name, c.Date())
-	fmt.Println(query)
-	_, err = db.Exec(query)
-	checkErr(err)
-}
-
-func timeStampSlot(t time.Time) int64 {
-	y, m, d := t.Date()
-	midnight := time.Date(y, m, d, 0, 0, 0, 0, t.Location())
-	return (t.Unix() - midnight.Unix()) / 15
+	upsertClient(c)
+	upsertResult(c)
 }
 
 func getSiteName(r *http.Request) string {
@@ -44,14 +25,45 @@ func getSiteName(r *http.Request) string {
 	return pdp.Site()
 }
 
-type postDataPrometheus struct {
-	Alerts []struct {
-		Annotations struct {
-			Site string `json:"site`
-		} `json:"annotations"`
-	} `json:"alerts"`
+func createTables() {
+	clientsSchema := `
+		id    INTEGER PRIMARY KEY,
+		name  TEXT    NOT NULL,
+		date  TEXT    NOT NULL,
+
+		UNIQUE (date, name),
+		UNIQUE (id, name)
+	`
+
+	createTable("clients", clientsSchema)
+
+	resultsSchema := `
+		id     INT  NOT NULL,
+		slot   INT  NOT NULL,
+		result BOOL NOT NULL,
+
+		UNIQUE (id, slot),
+		UNIQUE (slot, result)
+
+		FOREIGN KEY (id) REFERENCES client(id)
+	`
+
+	createTable("results", resultsSchema)
 }
 
-func (pdp postDataPrometheus) Site() string {
-	return pdp.Alerts[0].Annotations.Site
+func upsertClient(c Client) {
+	query := fmt.Sprintf("INSERT OR IGNORE INTO clients (name, date) VALUES ('%s', '%s')", c.Name, c.Date())
+
+	fmt.Println(query)
+	_, err := db.Exec(query)
+	checkErr(err)
+}
+
+func upsertResult(c Client) {
+	query = fmt.Sprintf("INSERT OR IGNORE INTO results (id, slot, result)"+
+		" SELECT id, %v, 'true' FROM clients WHERE name = '%s' AND date = '%v'", c.Slot, c.Name, c.Date())
+
+	fmt.Println(query)
+	_, err = db.Exec(query)
+	checkErr(err)
 }
