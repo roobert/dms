@@ -9,6 +9,8 @@ import (
 func main() {
 	defer db.Close()
 
+	// FIXME: create gc routine
+
 	createTables()
 	setupRoutes()
 

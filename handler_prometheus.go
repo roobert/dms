@@ -7,14 +7,6 @@ import (
 	"time"
 )
 
-// configuration: a list of clients which we expect to hear from (optional) - default to just checking for clients which have already checked in
-
-// setup: none
-
-// tidy-up: purge old entries for clients (3 months or a year or whatever?)
-
-// just write down the slot id for each incoming result - that way we dont end up with entries which are wrong, like if were to populate 'false' for a new client - it couldve been online with no results
-
 func prometheusHandler(w http.ResponseWriter, r *http.Request) {
 	c := Client{Name: getSiteName(r), TimeStamp: time.Now()}
 
