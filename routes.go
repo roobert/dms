@@ -6,16 +6,21 @@ import (
 
 func setupRoutes() {
 	// update API
-	http.HandleFunc("/prometheus", func(w http.ResponseWriter, r *http.Request) {
-		prometheusHandler(w, r)
-	})
-	//prometheusHandler(w http.ResponseWriter, r *http.Request, table)
-
-	// FIXME: implement generic handler to handle dms -> dms monitoring
-	//http.HandleFunc("/generic", genericHandler)
+	// FIXME: use ?format=prometheus|generic ? - default to generic?
+	http.HandleFunc("/ping/prometheus", prometheusHandler)
+	http.HandleFunc("/ping/generic", genericHandler)
 
 	// read API - this should be a group
-	//http.HandleFunc("/api/all", apiHandlerAll)
+
+	// return all clients
+	//http.HandleFunc("/api/clients/all", allClientsHandler)
+
+	// return a single client
+	//http.HandleFunc("/api/client", allClientsHandler)
+
+	// return all results for a client
+	// require param ?client=
+	//http.HandleFunc("/api/client/results", clientResultsHandler)
 
 	// web UI
 	//http.HandleFunc("/", webUIHandler)
