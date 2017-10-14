@@ -1,8 +1,19 @@
 all:
-	@go build -o dms client.go  db.go  error.go  handler_prometheus.go  init.go  main.go  post_data_prometheus.go  routes.go  tables.go
-run:
-	@bash -c 'go run client.go  db.go  error.go  handler_prometheus.go  init.go  main.go  post_data_prometheus.go  routes.go  tables.go |& ~/go/bin/pp'
-test:
+	build-server
+	build-client
+
+SERVER_FILES := $(filter-out server/*_test.go, $(wildcard server/*.go))
+
+
+build-server:
+	@go build -o dms ${SERVER_FILES}
+
+test-server:
 	@go test -v
+
+build-client:
+	@go build -o dms-handler ls handler/*.go -I handler/*_test.go
+run-server:
+	@go run server/*.go -I server/*_test.go
 clean:
 	@rm -v dms
