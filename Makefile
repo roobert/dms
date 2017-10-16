@@ -1,4 +1,4 @@
-all: build-server build-client
+all: build-server
 
 SERVER_FILES := $(filter-out server/*_test.go, $(wildcard server/*.go))
 
@@ -9,8 +9,8 @@ build-server:
 test:
 	@go test ./...
 
-build-client:
-	@go build -o dms-handler ls handler/*.go -I handler/*_test.go
+#build-client:
+#	@go build -o dms-handler
 run-server:
 	@go run server/*.go -I server/*_test.go
 clean:
