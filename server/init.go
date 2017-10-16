@@ -1,7 +1,7 @@
-package main
+package server
 
 import (
-	. "github.com/roobert/dms/server/db"
+	. "github.com/roobert/dms/db"
 )
 
 func init() {

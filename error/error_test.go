@@ -6,7 +6,7 @@ import (
 )
 
 func TestCheckErrWithNil(t *testing.T) {
-	checkErr(nil)
+	CheckErr(nil)
 }
 
 func TestCheckErrWithError(t *testing.T) {
@@ -17,6 +17,6 @@ func TestCheckErrWithError(t *testing.T) {
 			}
 		}()
 
-		checkErr(errors.New("test error"))
+		CheckErr(errors.New("test error"))
 	}()
 }

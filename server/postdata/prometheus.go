@@ -1,4 +1,4 @@
-package post_data
+package postdata
 
 type PostDataPrometheus struct {
 	Alerts []struct {

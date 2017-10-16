@@ -7,8 +7,7 @@ import (
 
 	. "github.com/roobert/dms/error"
 	. "github.com/roobert/dms/server/client"
-	. "github.com/roobert/dms/server/db"
-	. "github.com/roobert/dms/server/post_data"
+	. "github.com/roobert/dms/server/postdata"
 )
 
 func Prometheus(w http.ResponseWriter, r *http.Request) {

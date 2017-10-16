@@ -10,14 +10,14 @@ import (
 
 var DB *sql.DB
 
-func CreateDB(d string) {
+func CreateDB(db string) {
 	var err error
-	DB, err = sql.Open("sqlite3", d)
+	DB, err = sql.Open("sqlite3", db)
 	CheckErr(err)
 }
 
-func DeleteDB(d string) {
-	err := os.Remove(d)
+func DeleteDB(db string) {
+	err := os.Remove(db)
 	CheckErr(err)
 }
 

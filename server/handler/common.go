@@ -1,7 +1,8 @@
-package db
+package handler
 
 import (
 	"fmt"
+	. "github.com/roobert/dms/db"
 	. "github.com/roobert/dms/error"
 	. "github.com/roobert/dms/server/client"
 )
