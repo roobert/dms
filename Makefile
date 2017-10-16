@@ -1,6 +1,4 @@
-all:
-	build-server
-	build-client
+all: build-server build-client
 
 SERVER_FILES := $(filter-out server/*_test.go, $(wildcard server/*.go))
 
