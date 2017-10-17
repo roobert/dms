@@ -1,4 +1,4 @@
-all: test build-server
+all: build-server
 
 clean:
 	@rm -v dms
