@@ -1,3 +1,5 @@
+SERVER_FILES := $(filter-out server/*_test.go, $(wildcard server/*.go))
+
 all: build-server
 
 clean:
@@ -5,8 +7,6 @@ clean:
 
 test:
 	@go test ./...
-
-SERVER_FILES := $(filter-out server/*_test.go, $(wildcard server/*.go))
 
 build-server:
 	@go build -o dms ${SERVER_FILES}
