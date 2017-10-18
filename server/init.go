@@ -1,7 +1,7 @@
 package server
 
 import (
-	. "github.com/roobert/dms/db"
+	. "github.com/roobert/golang-db"
 )
 
 func init() {

@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"time"
 
-	. "github.com/roobert/dms/error"
 	. "github.com/roobert/dms/server/client"
 	. "github.com/roobert/dms/server/postdata"
+	. "github.com/roobert/golang-error"
 )
 
 func Prometheus(w http.ResponseWriter, r *http.Request) {

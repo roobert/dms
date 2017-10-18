@@ -2,9 +2,10 @@ package handler
 
 import (
 	"fmt"
-	. "github.com/roobert/dms/db"
-	. "github.com/roobert/dms/error"
+
 	. "github.com/roobert/dms/server/client"
+	. "github.com/roobert/golang-db"
+	. "github.com/roobert/golang-error"
 )
 
 func UpdateClient(c Client) {
