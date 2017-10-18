@@ -9,6 +9,18 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/roobert/golang-db"
+  packages = ["."]
+  revision = "a0b6122e1c56ecbeb870057a23044f8b0d0d4c6c"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/roobert/golang-error"
+  packages = ["."]
+  revision = "c83f9a4de5c28bf32cfbf85dc7749f428fe5ba9b"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/net"
   packages = ["context"]
   revision = "a04bdaca5b32abe1c069418fb7088ae607de5bd0"
@@ -16,6 +28,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c64d8299c6eae3e3117076061359879695140237b41d3f7b8d78f256ab3607e3"
+  inputs-digest = "608266ce6777ce136d95ccde15fb9845a7762cfe9898b1c028b5cb7013bbcf0e"
   solver-name = "gps-cdcl"
   solver-version = 1
