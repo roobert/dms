@@ -7,7 +7,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func TestCreateDB(t *testing.T) {
+func TestOpenDB(t *testing.T) {
 	func() {
 		defer func() {
 			if r := recover(); r != nil {
@@ -21,7 +21,7 @@ func TestCreateDB(t *testing.T) {
 			}
 		}()
 
-		CreateDB("test.db")
+		OpenDB("test.db")
 
 		// write to db so file gets created
 		CreateTable("test", "id INTEGER PRIMARY KEY, name TEXT")
@@ -40,7 +40,7 @@ func TestDeleteDB(t *testing.T) {
 			}
 		}()
 
-		CreateDB("test.db")
+		OpenDB("test.db")
 
 		// write to db so file gets created
 		CreateTable("test", "id INTEGER PRIMARY KEY, name TEXT")
@@ -67,7 +67,7 @@ func TestCreateTable(t *testing.T) {
 			}
 		}()
 
-		CreateDB("test.db")
+		OpenDB("test.db")
 		CreateTable("test", "id INTEGER PRIMARY KEY, name TEXT")
 	}()
 }

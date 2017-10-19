@@ -11,7 +11,7 @@ import (
 
 var DB *sql.DB
 
-func CreateDB(db string) {
+func OpenDB(db string) {
 	var err error
 	DB, err = sql.Open("sqlite3", db)
 	CheckErr(err)

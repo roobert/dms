@@ -1,18 +1,23 @@
-SERVER_FILES := $(filter-out server/*_test.go, $(wildcard server/*.go))
+LISTENER_FILES := $(filter-out cmd/listener/*_test.go, $(wildcard cmd/listener/*.go))
+HANDLER_FILES := $(filter-out cmd/handler/*_test.go, $(wildcard cmd/handler/*.go))
 
-all: build-server
+all: dms-listener dms-handler
 
 clean:
-	@rm -v dms
+	@rm -v dms-handler
+	@rm -v dms-listener
 
 test:
 	@go test ./...
 
-build-server:
-	@go build -o dms ${SERVER_FILES}
+dms-listener:
+	@go build -o dms-listener ${LISTENER_FILES}
 
-build-client:
-	@go build -o dms-handler
+dms-handler:
+	@go build -o dms-handler ${HANDLER_FILES}
 
-run-server:
-	@go run ${SERVER_FILES}
+run-listener:
+	@go run ${LISTENER_FILES}
+
+run-handler:
+	@go run ${HANDLER_FILES}

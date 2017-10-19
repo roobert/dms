@@ -11,7 +11,7 @@
   branch = "master"
   name = "github.com/roobert/golang-db"
   packages = ["."]
-  revision = "a0b6122e1c56ecbeb870057a23044f8b0d0d4c6c"
+  revision = "cc8a987728b50f8e8bae1157ad550ea67cdf12f1"
 
 [[projects]]
   branch = "master"
@@ -23,7 +23,7 @@
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context"]
-  revision = "a04bdaca5b32abe1c069418fb7088ae607de5bd0"
+  revision = "1087133bc4af3073e18add999345c6ae75918503"
 
 [solve-meta]
   analyzer-name = "dep"
